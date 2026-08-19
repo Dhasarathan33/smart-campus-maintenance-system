@@ -1,11 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [react()],
-  preview: {
-    allowedHosts: [
-      "carefree-illumination-production-e062.up.railway.app"
-    ]
-  }
+    plugins: [
+        react(),
+        tailwindcss()
+    ],
+
+    preview: {
+        allowedHosts: [
+            "carefree-illumination-production-e062.up.railway.app"
+        ]
+    }
 });
