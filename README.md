@@ -271,35 +271,34 @@ Role-based access control
 
 Sensitive values such as database passwords and JWT secrets should be stored in environment variables and should not be committed to GitHub.
 
-🧪 Testing
+## 🧪 Testing
 
 The deployed application has been tested for the main user workflows:
 
-Feature	Status
-Frontend deployment	✅ Working
-Backend deployment	✅ Working
-MySQL connection	✅ Working
-Admin login	✅ Working
-Student login	✅ Working
-Technician login	✅ Working
-Complaint creation	✅ Working
-Technician assignment	✅ Working
-Complaint status updates	✅ Working
-Completion approval	✅ Working
-Notifications	✅ Working
-Reports	✅ Working
-📱 Responsive Design
+| Feature | Status |
+|---|---|
+| Frontend Deployment | ✅ Working |
+| Backend Deployment | ✅ Working |
+| MySQL Connection | ✅ Working |
+| Admin Login | ✅ Working |
+| Student Login | ✅ Working |
+| Technician Login | ✅ Working |
+| Complaint Creation | ✅ Working |
+| Technician Assignment | ✅ Working |
+| Complaint Status Updates | ✅ Working |
+| Completion Approval | ✅ Working |
+| Notifications | ✅ Working |
+| Reports | ✅ Working |
+| Responsive Design | ⚠️ Optimized for Desktop/Laptop |
 
-The current application is primarily optimized and tested for:
+### Current Platform Support
 
-Desktop
-Laptop
+The application is primarily optimized and tested for:
+
+- 💻 Desktop
+- 💻 Laptop
 
 Mobile responsiveness can be improved further as a future enhancement.
-
-🚀 Future Enhancements
-
-Possible future improvements include:
 
 Improved mobile responsiveness
 Real-time notifications
