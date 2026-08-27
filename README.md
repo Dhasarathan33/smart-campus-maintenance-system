@@ -110,23 +110,26 @@ Administrators can:
 
 ## 🏗️ System Architecture
 
-
+```text
                     Smart Campus Maintenance System
-                               │
-             ┌─────────────────┴─────────────────┐
-             │                                   │
-       Frontend Application                 Backend API
-          React + Vite                    Node.js + Express
-             │                                   │
-             │             REST API              │
-             └──────────────────┬────────────────┘
-                                │
-                                ▼
-                         MySQL Database
-                                │
+                                  │
+                 ┌────────────────┴────────────────┐
+                 │                                 │
+        Frontend Application                 Backend API
+             React + Vite                 Node.js + Express
+                 │                                 │
+                 │            REST API             │
+                 └────────────────┬────────────────┘
+                                  │
+                                  ▼
+                           MySQL Database
+                                  │
                     smart_campus_maintenance
+```
 
-🔄 Complaint Workflow
+## 🔄 Complaint Workflow
+
+```text
 Student
    │
    ▼
@@ -150,9 +153,11 @@ Administrator Verifies
    ├── Approve ──► Complaint Completed
    │
    └── Reject ───► Technician Continues Work
+```
 
-📂 Project Structure
+## 📂 Project Structure
 
+```text
 Smart Campus Maintenance System/
 │
 ├── backend/
@@ -177,80 +182,107 @@ Smart Campus Maintenance System/
 │   └── .gitignore
 │
 └── README.md
+```
 
-🗄️ Database
+## 🗄️ Database
 
 The system uses a MySQL database named:
 
+```text
 smart_campus_maintenance
+```
 
-Main tables include:
+### Main Tables
 
-academic_departments
-complaints
-departments
-notifications
-technicians
-users
+| Table | Description |
+|---|---|
+| `academic_departments` | Academic department information |
+| `complaints` | Maintenance complaint information |
+| `departments` | Department information |
+| `notifications` | User notification information |
+| `technicians` | Technician information |
+| `users` | User account information |
 
 The database manages users, complaints, departments, technicians, and notification information.
 
-⚙️ Local Installation
-1. Clone the Repository
+## ⚙️ Local Installation
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Dhasarathan33/smart-campus-maintenance-system.git
 cd "Smart Campus Maintenance System"
-2. Backend Setup
+```
+
+### 2. Backend Setup
+
+Navigate to the backend folder:
+
+```bash
 cd backend
 npm install
+```
 
-Create a .env file inside the backend folder:
+Create a `.env` file inside the `backend` folder:
 
+```env
 PORT=5000
-
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=YOUR_DATABASE_PASSWORD
 DB_NAME=smart_campus_maintenance
-
 JWT_SECRET=YOUR_JWT_SECRET
-
 CORS_ORIGIN=http://localhost:5173
+```
 
 Start the backend:
 
+```bash
 npm run dev
-3. Frontend Setup
+```
 
-Open another terminal:
+### 3. Frontend Setup
 
+Open another terminal and navigate to the frontend folder:
+
+```bash
 cd frontend
 npm install
+```
 
 Create the required environment configuration:
 
+```env
 VITE_API_BASE_URL=http://localhost:5000/api
+```
 
 Start the frontend:
 
+```bash
 npm run dev
+```
 
 The application will normally be available at:
 
+```text
 http://localhost:5173
-🌐 Production Deployment
+```
+
+## 🌐 Production Deployment
 
 The application is deployed using Railway.
 
-Frontend
+### Frontend
 
 https://carefree-illumination-production-e062.up.railway.app
 
-Backend
+### Backend
 
 https://smart-campus-maintenance-system-production.up.railway.app
 
-The production architecture is:
+### Production Architecture
 
+```text
 Railway Frontend
        │
        ▼
@@ -258,16 +290,18 @@ Railway Backend
        │
        ▼
 Railway MySQL
-🔐 Security
+```
+
+## 🔐 Security
 
 The project includes:
 
-JWT-based authentication
-Password hashing using bcryptjs
-Environment variables for sensitive configuration
-CORS configuration
-API rate limiting
-Role-based access control
+- JWT-based authentication
+- Password hashing using bcryptjs
+- Environment variables for sensitive configuration
+- CORS configuration
+- API rate limiting
+- Role-based access control
 
 Sensitive values such as database passwords and JWT secrets should be stored in environment variables and should not be committed to GitHub.
 
@@ -300,21 +334,24 @@ The application is primarily optimized and tested for:
 
 Mobile responsiveness can be improved further as a future enhancement.
 
-Improved mobile responsiveness
-Real-time notifications
-Advanced analytics
-Email notifications
-Push notifications
-Maintenance scheduling
-More detailed reporting
-Improved mobile navigation
-Additional administrative controls
+## 🚀 Future Enhancements
 
-👨‍💻 Development
+Possible future improvements include:
+
+- Improved mobile responsiveness
+- Real-time notifications
+- Advanced analytics
+- Email notifications
+- Push notifications
+- Maintenance scheduling
+- More detailed reporting
+- Improved mobile navigation
+- Additional administrative controls
+
+## 👨‍💻 Development
 
 This project was developed as a Smart Campus Maintenance System to improve the efficiency and transparency of campus maintenance operations.
 
-📄 License
+## 📄 License
 
 This project is developed for academic/project purposes.
-
