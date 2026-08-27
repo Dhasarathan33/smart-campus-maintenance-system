@@ -1,0 +1,321 @@
+# 🏫 Smart Campus Maintenance System
+
+A web-based campus maintenance management system designed to simplify the process of reporting, assigning, tracking, and resolving maintenance complaints within a college campus.
+
+The system connects Students, Technicians, and Administrators through a centralized platform, making complaint management faster, more organized, and transparent.
+
+## 📌 Project Overview
+
+The Smart Campus Maintenance System allows students to report maintenance issues such as electrical problems, plumbing issues, infrastructure damage, and other campus-related problems.
+
+Administrators can manage complaints, assign technicians, monitor progress, and verify completed work.
+
+Technicians can view their assigned complaints, update complaint status, and mark maintenance work as completed.
+
+## 👥 User Roles
+
+### 👨‍🎓 Student
+
+Students can:
+
+- Register and log in
+- Submit maintenance complaints
+- Upload complaint images
+- View submitted complaints
+- Track complaint status
+- View notifications
+- Manage profile information
+
+### 🧑‍🔧 Technician
+
+Technicians can:
+
+- Log in securely
+- View assigned complaints
+- View complaint details
+- Update complaint status
+- Mark complaints as completed
+- Add completion information
+- View relevant notifications
+- Manage profile information
+
+### 👨‍💼 Administrator
+
+Administrators can:
+
+- Log in securely
+- View all complaints
+- View complaint details
+- Assign technicians
+- Reassign technicians
+- Approve completed complaints
+- Reject completed complaints
+- Manage departments
+- Manage academic departments
+- Manage users and technicians
+- View reports and dashboard information
+- Manage notifications
+
+## ✨ Key Features
+
+- 🔐 Secure authentication
+- 👥 Role-based access
+- 📝 Complaint management
+- 📷 Complaint image uploads
+- 🧑‍🔧 Technician assignment
+- 🔄 Technician reassignment
+- 📊 Complaint status tracking
+- ✅ Completion approval
+- ❌ Completion rejection
+- 🔔 Notifications
+- 📈 Reports and dashboard
+- 🏢 Department management
+- 👤 Profile management
+- 🔑 Password management
+- 🛡️ API rate limiting
+- 🌐 Production deployment using Railway
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- React
+- Vite
+- Tailwind CSS
+- Axios
+- React Router
+- Chart.js
+- React Icons
+- Lucide React
+
+### Backend
+
+- Node.js
+- Express.js
+- MySQL2
+- JWT
+- bcryptjs
+- Multer
+- CORS
+- Express Rate Limit
+- dotenv
+
+### Database
+
+- MySQL
+
+### Deployment
+
+- Railway
+
+## 🏗️ System Architecture
+
+
+                    Smart Campus Maintenance System
+                               │
+             ┌─────────────────┴─────────────────┐
+             │                                   │
+       Frontend Application                 Backend API
+          React + Vite                    Node.js + Express
+             │                                   │
+             │             REST API              │
+             └──────────────────┬────────────────┘
+                                │
+                                ▼
+                         MySQL Database
+                                │
+                    smart_campus_maintenance
+
+🔄 Complaint Workflow
+Student
+   │
+   ▼
+Create Complaint
+   │
+   ▼
+Administrator Reviews Complaint
+   │
+   ▼
+Assign Technician
+   │
+   ▼
+Technician Works on Complaint
+   │
+   ▼
+Technician Marks Completed
+   │
+   ▼
+Administrator Verifies
+   │
+   ├── Approve ──► Complaint Completed
+   │
+   └── Reject ───► Technician Continues Work
+
+📂 Project Structure
+
+Smart Campus Maintenance System/
+│
+├── backend/
+│   ├── config/
+│   ├── middleware/
+│   ├── routes/
+│   ├── uploads/
+│   ├── server.js
+│   ├── package.json
+│   └── .gitignore
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── context/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   └── .gitignore
+│
+└── README.md
+
+🗄️ Database
+
+The system uses a MySQL database named:
+
+smart_campus_maintenance
+
+Main tables include:
+
+academic_departments
+complaints
+departments
+notifications
+technicians
+users
+
+The database manages users, complaints, departments, technicians, and notification information.
+
+⚙️ Local Installation
+1. Clone the Repository
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd "Smart Campus Maintenance System"
+2. Backend Setup
+cd backend
+npm install
+
+Create a .env file inside the backend folder:
+
+PORT=5000
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=YOUR_DATABASE_PASSWORD
+DB_NAME=smart_campus_maintenance
+
+JWT_SECRET=YOUR_JWT_SECRET
+
+CORS_ORIGIN=http://localhost:5173
+
+Start the backend:
+
+npm run dev
+3. Frontend Setup
+
+Open another terminal:
+
+cd frontend
+npm install
+
+Create the required environment configuration:
+
+VITE_API_BASE_URL=http://localhost:5000/api
+
+Start the frontend:
+
+npm run dev
+
+The application will normally be available at:
+
+http://localhost:5173
+🌐 Production Deployment
+
+The application is deployed using Railway.
+
+Frontend
+
+https://carefree-illumination-production-e062.up.railway.app
+
+Backend
+
+https://smart-campus-maintenance-system-production.up.railway.app
+
+The production architecture is:
+
+Railway Frontend
+       │
+       ▼
+Railway Backend
+       │
+       ▼
+Railway MySQL
+🔐 Security
+
+The project includes:
+
+JWT-based authentication
+Password hashing using bcryptjs
+Environment variables for sensitive configuration
+CORS configuration
+API rate limiting
+Role-based access control
+
+Sensitive values such as database passwords and JWT secrets should be stored in environment variables and should not be committed to GitHub.
+
+🧪 Testing
+
+The deployed application has been tested for the main user workflows:
+
+Feature	Status
+Frontend deployment	✅ Working
+Backend deployment	✅ Working
+MySQL connection	✅ Working
+Admin login	✅ Working
+Student login	✅ Working
+Technician login	✅ Working
+Complaint creation	✅ Working
+Technician assignment	✅ Working
+Complaint status updates	✅ Working
+Completion approval	✅ Working
+Notifications	✅ Working
+Reports	✅ Working
+📱 Responsive Design
+
+The current application is primarily optimized and tested for:
+
+Desktop
+Laptop
+
+Mobile responsiveness can be improved further as a future enhancement.
+
+🚀 Future Enhancements
+
+Possible future improvements include:
+
+Improved mobile responsiveness
+Real-time notifications
+Advanced analytics
+Email notifications
+Push notifications
+Maintenance scheduling
+More detailed reporting
+Improved mobile navigation
+Additional administrative controls
+
+👨‍💻 Development
+
+This project was developed as a Smart Campus Maintenance System to improve the efficiency and transparency of campus maintenance operations.
+
+📄 License
+
+This project is developed for academic/project purposes.
+
