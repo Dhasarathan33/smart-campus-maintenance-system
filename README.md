@@ -197,7 +197,7 @@ The database manages users, complaints, departments, technicians, and notificati
 
 ⚙️ Local Installation
 1. Clone the Repository
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/Dhasarathan33/smart-campus-maintenance-system.git
 cd "Smart Campus Maintenance System"
 2. Backend Setup
 cd backend
