@@ -5,7 +5,8 @@ const {
     getStatusReport,
     getPriorityReport,
     getDepartmentReport,
-    getRecentComplaints
+    getRecentComplaints,
+    getAllComplaintsReport
 } = require("../controllers/reportController");
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.get("/status", authenticateUser, getStatusReport);
 router.get("/priority", authenticateUser, getPriorityReport);
 router.get("/departments", authenticateUser, getDepartmentReport);
 router.get("/recent", authenticateUser, getRecentComplaints);
+router.get("/complaints", authenticateUser, getAllComplaintsReport);
 
 module.exports = router;

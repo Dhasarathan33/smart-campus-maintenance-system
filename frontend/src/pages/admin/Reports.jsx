@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ExcelJS from "exceljs";
 import { Bar, Pie } from "react-chartjs-2";
 import {
     BarElement,
@@ -30,6 +31,7 @@ function Reports() {
     const [departments, setDepartments] = useState([]);
     const [recentComplaints, setRecentComplaints] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -60,6 +62,64 @@ function Reports() {
             setLoading(false);
         }
     };
+
+    async function downloadReport() {
+        setDownloading(true);
+
+        try {
+            const response = await api.get("/reports/complaints");
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet("Complaint Report");
+
+            worksheet.columns = [
+                { header: "Complaint ID", key: "complaintId", width: 16 },
+                { header: "Student", key: "student", width: 28 },
+                { header: "Department", key: "department", width: 24 },
+                { header: "Technician", key: "technician", width: 28 },
+                { header: "Status", key: "status", width: 24 },
+                { header: "Priority", key: "priority", width: 14 },
+                { header: "Created Date", key: "createdDate", width: 18 }
+            ];
+
+            response.data.forEach((complaint) => {
+                worksheet.addRow({
+                    complaintId: complaint.complaint_id,
+                    student: complaint.student_name,
+                    department: complaint.department_name,
+                    technician: complaint.technician_name,
+                    status: complaint.status,
+                    priority: complaint.priority || "Low",
+                    createdDate: new Date(complaint.created_at)
+                });
+            });
+
+            const headerRow = worksheet.getRow(1);
+            headerRow.font = { bold: true, color: { argb: "FFFFFFFF" } };
+            headerRow.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2563EB" } };
+            headerRow.alignment = { vertical: "middle", horizontal: "left" };
+            headerRow.height = 22;
+            worksheet.getColumn(7).numFmt = "dd/mm/yyyy";
+            worksheet.getColumn(7).alignment = { horizontal: "left" };
+            worksheet.views = [{ state: "frozen", ySplit: 1 }];
+            worksheet.autoFilter = { from: "A1", to: "G1" };
+
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "smart_campus_maintenance_report.xlsx";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+            alert("Report downloaded successfully.");
+        } catch (requestError) {
+            alert(requestError.response?.data?.message || "Unable to download the report right now.");
+        } finally {
+            setDownloading(false);
+        }
+    }
 
     const cards = dashboard ? [
         { label: "Total Complaints", value: dashboard.total_complaints, color: "text-blue-700" },
@@ -107,7 +167,12 @@ function Reports() {
             <div className="mx-auto max-w-7xl space-y-6">
                 <div className="rounded-3xl bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-600 p-6 text-white shadow-xl md:p-8">
                     <p className="text-sm uppercase tracking-[0.3em] text-blue-100">Admin Analytics</p>
-                    <h1 className="mt-3 text-3xl font-bold md:text-4xl">Reports</h1>
+                    <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
+                        <h1 className="text-3xl font-bold md:text-4xl">Reports</h1>
+                        <button type="button" onClick={downloadReport} disabled={downloading} className="rounded-xl bg-white/15 px-5 py-3 font-semibold text-white backdrop-blur transition hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-60">
+                            {downloading ? "Preparing Report..." : "Download Report"}
+                        </button>
+                    </div>
                     <p className="mt-3 text-sm text-blue-50 md:text-base">Monitor complaint activity and campus maintenance performance.</p>
                 </div>
 

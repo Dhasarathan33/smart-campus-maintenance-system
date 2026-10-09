@@ -186,10 +186,42 @@ const getRecentComplaints = async (req, res) => {
     }
 };
 
+const getAllComplaintsReport = async (req, res) => {
+    if (!ensureAdmin(req, res)) return;
+
+    const sql = `
+        SELECT
+            c.complaint_id,
+            u.full_name AS student_name,
+            d.department_name,
+            COALESCE(tu.full_name, 'Unassigned') AS technician_name,
+            c.status,
+            c.priority,
+            c.created_at
+        FROM complaints c
+        INNER JOIN users u
+            ON u.user_id = c.user_id
+        INNER JOIN departments d
+            ON d.department_id = c.department_id
+        LEFT JOIN technicians t
+            ON t.technician_id = c.technician_id
+        LEFT JOIN users tu
+            ON tu.user_id = t.user_id
+        ORDER BY c.created_at DESC
+    `;
+
+    try {
+        res.status(200).json(await query(sql));
+    } catch (error) {
+        handleError(res, error, "Get All Complaint Reports");
+    }
+};
+
 module.exports = {
     getDashboard,
     getStatusReport,
     getPriorityReport,
     getDepartmentReport,
-    getRecentComplaints
+    getRecentComplaints,
+    getAllComplaintsReport
 };
