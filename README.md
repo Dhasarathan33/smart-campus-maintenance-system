@@ -73,7 +73,7 @@ Administrators can:
 - 👤 Profile management
 - 🔑 Password management
 - 🛡️ API rate limiting
-- 🌐 Production deployment using Railway
+- 🌐 Production deployment using Vercel, Render, and TiDB Cloud
 
 ## 🛠️ Technologies Used
 
@@ -102,56 +102,59 @@ Administrators can:
 
 ### Database
 
-- MySQL
+- TiDB Cloud (MySQL-compatible database)
 
 ### Deployment
 
-- Railway
+- Vercel (Frontend)
+- Render (Backend API)
+- TiDB Cloud (Database)
 
 ## 🏗️ System Architecture
 
 ```text
                     Smart Campus Maintenance System
-                                  │
+                                  |
                  ┌────────────────┴────────────────┐
-                 │                                 │
-        Frontend Application                 Backend API
-             React + Vite                 Node.js + Express
-                 │                                 │
-                 │            REST API             │
+                 |                                 |
+        Frontend Application                Backend API
+            React + Vite                 Node.js + Express
+                 |                                 |
+                 |            REST API             |
                  └────────────────┬────────────────┘
-                                  │
+                                  |
                                   ▼
-                           MySQL Database
-                                  │
-                    smart_campus_maintenance
+                          TiDB Cloud Database
+                          (MySQL Compatible)
+                                  |
+                       smart_campus_maintenance
 ```
 
 ## 🔄 Complaint Workflow
 
 ```text
 Student
-   │
+   |
    ▼
 Create Complaint
-   │
+   |
    ▼
 Administrator Reviews Complaint
-   │
+   |
    ▼
 Assign Technician
-   │
+   |
    ▼
 Technician Works on Complaint
-   │
+   |
    ▼
 Technician Marks Completed
-   │
+   |
    ▼
 Administrator Verifies
-   │
+   |
    ├── Approve ──► Complaint Completed
-   │
+   |
    └── Reject ───► Technician Continues Work
 ```
 
@@ -159,7 +162,7 @@ Administrator Verifies
 
 ```text
 Smart Campus Maintenance System/
-│
+|
 ├── backend/
 │   ├── config/
 │   ├── middleware/
@@ -186,7 +189,7 @@ Smart Campus Maintenance System/
 
 ## 🗄️ Database
 
-The system uses a MySQL database named:
+The system uses a TiDB Cloud database compatible with MySQL, named:
 
 ```text
 smart_campus_maintenance
@@ -198,7 +201,7 @@ smart_campus_maintenance
 |---|---|
 | `academic_departments` | Academic department information |
 | `complaints` | Maintenance complaint information |
-| `departments` | Department information |
+| `departments` | Maintenance department information |
 | `notifications` | User notification information |
 | `technicians` | Technician information |
 | `users` | User account information |
@@ -211,7 +214,7 @@ The database manages users, complaints, departments, technicians, and notificati
 
 ```bash
 git clone https://github.com/Dhasarathan33/smart-campus-maintenance-system.git
-cd "Smart Campus Maintenance System"
+cd smart-campus-maintenance-system
 ```
 
 ### 2. Backend Setup
@@ -228,12 +231,13 @@ Create a `.env` file inside the `backend` folder:
 ```env
 PORT=5000
 DB_HOST=localhost
+DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=YOUR_DATABASE_PASSWORD
 DB_NAME=smart_campus_maintenance
-JWT_SECRET=YOUR_JWT_SECRET
 CORS_ORIGIN=http://localhost:5173
 ```
+
+For local development, configure these values for your local MySQL database. If you use TiDB Cloud locally, use the connection details and TLS settings provided by TiDB Cloud instead.
 
 Start the backend:
 
@@ -250,7 +254,7 @@ cd frontend
 npm install
 ```
 
-Create the required environment configuration:
+Create a `.env` file inside the `frontend` folder:
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
@@ -270,27 +274,61 @@ http://localhost:5173
 
 ## 🌐 Production Deployment
 
-The application is deployed using Railway.
+The application is deployed using Vercel, Render, and TiDB Cloud.
 
 ### Frontend
 
-https://carefree-illumination-production-e062.up.railway.app
+**Platform:** Vercel
+
+**Live URL:** https://smart-campus-maintenance-system-swart.vercel.app
 
 ### Backend
 
-https://smart-campus-maintenance-system-production.up.railway.app
+**Platform:** Render
+
+**Backend URL:** https://smart-campus-maintenance-system.onrender.com
+
+### Database
+
+**Platform:** TiDB Cloud
+
+**Database Name:** `smart_campus_maintenance`
 
 ### Production Architecture
 
 ```text
-Railway Frontend
-       │
+Vercel Frontend
+       |
+       | HTTPS / REST API
        ▼
-Railway Backend
-       │
+Render Backend
+       |
+       | Secure Database Connection
        ▼
-Railway MySQL
+TiDB Cloud Database
 ```
+
+### Production Environment Variables
+
+Configure the following environment variables in the respective hosting dashboards.
+
+**Render Backend:**
+
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_NAME`
+- `JWT_SECRET`
+- `CORS_ORIGIN`
+
+**Vercel Frontend:**
+
+- `VITE_API_BASE_URL`
+
+The frontend API base URL should point to the deployed Render backend API.
+
+Sensitive values must be stored in environment variables and must not be committed to GitHub.
 
 ## 🔐 Security
 
@@ -307,27 +345,29 @@ Sensitive values such as database passwords and JWT secrets should be stored in 
 
 ## 🧪 Testing
 
-The deployed application has been tested for the main user workflows:
+The following table provides a checklist for verifying the application after deployment.
 
 | Feature | Status |
 |---|---|
-| Frontend Deployment | ✅ Working |
-| Backend Deployment | ✅ Working |
-| MySQL Connection | ✅ Working |
-| Admin Login | ✅ Working |
-| Student Login | ✅ Working |
-| Technician Login | ✅ Working |
-| Complaint Creation | ✅ Working |
-| Technician Assignment | ✅ Working |
-| Complaint Status Updates | ✅ Working |
-| Completion Approval | ✅ Working |
-| Notifications | ✅ Working |
-| Reports | ✅ Working |
-| Responsive Design | ⚠️ Optimized for Desktop/Laptop |
+| Frontend Deployment | Deployed — verify live functionality |
+| Backend Deployment | Deployed — verify API functionality |
+| TiDB Cloud Connection | Configured — verify database operations |
+| Admin Login | Pending verification |
+| Student Login | Pending verification |
+| Technician Login | Pending verification |
+| Complaint Creation | Pending verification |
+| Technician Assignment | Pending verification |
+| Complaint Status Updates | Pending verification |
+| Completion Approval | Pending verification |
+| Notifications | Pending verification |
+| Reports | Pending verification |
+| Responsive Design | Primarily optimized for desktop/laptop |
+
+Update these statuses after testing the deployed application.
 
 ### Current Platform Support
 
-The application is primarily optimized and tested for:
+The application is primarily optimized for:
 
 - 💻 Desktop
 - 💻 Laptop
