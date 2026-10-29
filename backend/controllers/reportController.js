@@ -1,3 +1,4 @@
+
 const db = require("../config/db");
 
 const query = (sql, params = []) => new Promise((resolve, reject) => {
@@ -18,7 +19,9 @@ const ensureAdmin = (req, res) => {
     }
 
     if (req.user.role !== "Admin") {
-        res.status(403).json({ message: "Only administrators can view reports" });
+        res.status(403).json({
+            message: "Only administrators can view reports"
+        });
         return false;
     }
 
@@ -36,44 +39,54 @@ const getDashboard = async (req, res) => {
     const sql = `
         SELECT
             COUNT(c.complaint_id) AS total_complaints,
+
             COALESCE(SUM(CASE
                 WHEN c.status = 'Pending' THEN 1
                 ELSE 0
             END), 0) AS pending,
+
             COALESCE(SUM(CASE
                 WHEN c.status = 'Assigned' THEN 1
                 ELSE 0
             END), 0) AS assigned,
+
             COALESCE(SUM(CASE
                 WHEN c.status = 'In Progress' THEN 1
                 ELSE 0
             END), 0) AS in_progress,
+
             COALESCE(SUM(CASE
                 WHEN c.status = 'Completed' THEN 1
                 ELSE 0
             END), 0) AS completed,
+
             COALESCE(SUM(CASE
                 WHEN c.\`priority\` = 'High' THEN 1
                 ELSE 0
             END), 0) AS \`high_priority\`,
+
             COALESCE(SUM(CASE
                 WHEN c.\`priority\` = 'Medium' THEN 1
                 ELSE 0
             END), 0) AS \`medium_priority\`,
+
             COALESCE(SUM(CASE
                 WHEN c.\`priority\` = 'Low' THEN 1
                 ELSE 0
             END), 0) AS \`low_priority\`,
+
             COALESCE((
                 SELECT COUNT(*)
                 FROM users
                 WHERE role = 'Student'
             ), 0) AS total_students,
+
             COALESCE((
                 SELECT COUNT(*)
                 FROM users
                 WHERE role = 'Technician'
             ), 0) AS total_technicians
+
         FROM complaints c
     `;
 
@@ -110,20 +123,17 @@ const getPriorityReport = async (req, res) => {
     const sql = `
         SELECT
             priorities.priority,
-            COUNT(c.complaint_id) AS complaint_count
+            (
+                SELECT COUNT(*)
+                FROM complaints c
+                WHERE CAST(c.priority AS CHAR) = priorities.priority
+            ) AS complaint_count
         FROM (
-            SELECT 'High' AS priority
-            UNION ALL SELECT 'Medium'
-            UNION ALL SELECT 'Low'
+            SELECT 'High' AS priority, 1 AS sort_order
+            UNION ALL SELECT 'Medium', 2
+            UNION ALL SELECT 'Low', 3
         ) AS priorities
-        LEFT JOIN complaints c
-            ON c.priority = priorities.priority
-        GROUP BY priorities.priority
-        ORDER BY CASE priorities.priority
-            WHEN 'High' THEN 1
-            WHEN 'Medium' THEN 2
-            WHEN 'Low' THEN 3
-        END
+        ORDER BY priorities.sort_order
     `;
 
     try {
